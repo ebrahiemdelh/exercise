@@ -68,7 +68,13 @@
                                                             type="button" class="btn  btn-info mx-2">Show
                                                             Details</button></a>
                                                     <a href="{{ route('products.edit', $product->id) }}"><button
-                                                            type="button" class="btn  btn-info mx-2">Edit</button></a>
+                                                            type="button" class="btn  btn-info mx-2">Status</button></a>
+                                                    <a href="{{ route('products.edit', $product->id) }}"><button
+                                                            type="button" class="btn  btn-info mx-2">Stock</button></a>
+                                                    <a href="{{ route('products.edit', $product->id) }}"><button
+                                                            type="button" class="btn  btn-info mx-2">Price</button></a>
+                                                    <a href="{{ route('products.edit', $product->id) }}"><button
+                                                            type="button" class="btn  btn-info mx-2">Edit info</button></a>
                                                     <form action="{{ route('products.destroy', $product->id) }} "
                                                         method="post">
                                                         @csrf

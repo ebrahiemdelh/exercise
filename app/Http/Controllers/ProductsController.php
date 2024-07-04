@@ -6,6 +6,15 @@ use App\Models\Products;
 use App\Http\Requests\StoreProductsRequest;
 use App\Http\Requests\UpdateProductsRequest;
 use App\Models\Categories;
+use App\Models\Prod_Colors;
+use App\Models\Prod_Images;
+use App\Models\Prod_Sizes;
+use App\Models\Projects;
+use Illuminate\Support\Facades\DB;
+use SebastianBergmann\CodeCoverage\Report\Html\Colors;
+use SebastianBergmann\CodeCoverage\Report\Xml\Project;
+
+use function Laravel\Prompts\table;
 
 class ProductsController extends Controller
 {
@@ -24,7 +33,9 @@ class ProductsController extends Controller
     public function create()
     {
         $categories = Categories::all();
-        return view('products.create', compact('categories'));
+        $colors = Prod_Colors::all();
+        $sizes = Prod_Sizes::all();
+        return view('Products.create', compact('categories', 'colors', 'sizes'));
     }
 
     /**
@@ -37,13 +48,28 @@ class ProductsController extends Controller
             $image_name = time() . '.' . $image->getClientOriginalExtension();
             $destinationPath = public_path('/images/products/' . $request->name);
             $image->move($destinationPath, $image_name);
+        } else {
+            $image_name = "none";
         }
         Products::create([
             'name' => $request->name,
             'description' => $request->description,
             'price' => $request->price,
             'category_id' => $request->category_id,
-            'image' => $image_name
+        ]);
+        Prod_Images::create([
+            'image' => $image_name,
+            'title' => $request->name,
+        ]);
+        DB::table('product_image_link')->insert([
+            'image_id' => Prod_Images::latest()->first()->id,
+            'product_id' => Products::latest()->first()->id
+        ]);
+        // dd(Products::latest()->first()->id);
+        dd($request->id);
+        DB::table('product_color_link')->insert([
+            'color_id' => DB::table('prod_colors')->where('color', $request->color)->first()->id,
+            'product_id' => Products::latest()->first()->id
         ]);
         return redirect()->route('products.index')->with('success', 'Product created successfully');
     }
@@ -60,24 +86,32 @@ class ProductsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Products $products)
+    public function edit($id)
     {
-        //
+        $product = Products::find($id);
+        $categories = Categories::all();
+        $projects = Projects::all();
+        return view('Products.edit', compact('product', 'categories', 'projects'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductsRequest $request, Products $products)
+    public function update(UpdateProductsRequest $request,  $id)
     {
-        //
+        Products::where('id', $id)->update([
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
+        return redirect()->route('products.index')->with('success', 'Product updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Products $products)
+    public function destroy($id)
     {
-        //
+        Products::where('id', $id)->delete();
+        return redirect()->route('products.index')->with('success', 'Product deleted successfully');
     }
 }

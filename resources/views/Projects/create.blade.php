@@ -51,11 +51,13 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="name">Project Name</label>
-                                        <input type="text" class="form-control" id="name" name="name">
+                                        <input type="text" class="form-control" id="name" name="name"
+                                            value="{{ old('name') }}">
                                     </div>
                                     <div class="form-group">
                                         <label for="description">Project Description</label>
-                                        <input type="text" class="form-control" id="description" name="description">
+                                        <input type="text" class="form-control" id="description" name="description"
+                                            value="{{ old('description') }}">
                                     </div>
                                     <div class="form-group">
                                         <label for="category">Category</label>

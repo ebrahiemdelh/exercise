@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    Edit Project
+    Edit Product
 @endsection
 @section('content')
     <div class="content-wrapper" style="min-height: 1345.6px;">
@@ -46,20 +46,20 @@
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form action="{{ route('projects.update', $project->id) }}" method="post">
+                            <form action="{{ route('products.update', $product->id) }}" method="post">
                                 @csrf
                                 @method('put')
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <input type="hidden" name="id" value="{{ $project->id }}">
-                                        <label for="name">Project Name</label>
+                                        <input type="hidden" name="id" value="{{ $product->id }}">
+                                        <label for="name">Product Name</label>
                                         <input type="text" class="form-control" id="Name" name="name"
-                                            value="{{ $project->name }}">
+                                            value="{{ $product->name }}">
                                     </div>
                                     <div class="form-group">
-                                        <label for="description">Project Description</label>
+                                        <label for="description">Product Description</label>
                                         <input type="text" class="form-control" id="description" name="description"
-                                            value="{{ $project->description }}">
+                                            value="{{ $product->description }}">
                                     </div>
                                     <div class="form-group">
                                         <label for="category">Category</label>

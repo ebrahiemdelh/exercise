@@ -75,6 +75,35 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
+                                        <label for="quantity">Product Quantity</label>
+                                        <input type="number" class="form-control" id="quantity" name="quantity"
+                                            value="{{ old('quantity') }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="status">Status</label>
+                                        <select class="form-control" name="status" id="status"
+                                            value="{{ old('status') }}">
+                                            <option value="1">Active</option>
+                                            <option value="0">Inactive</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="color">
+                                            @foreach ($colors as $color)
+                                                <input type="checkbox" name="{{ $color->color }}"
+                                                    value="{{ $color->color }}">{{ $color->color }}</input>
+                                            @endforeach
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="size">
+                                            @foreach ($sizes as $size)
+                                                <input type="checkbox" name="size"
+                                                    value="{{ $size->size }}">{{ $size->size }}</input>
+                                            @endforeach
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
                                         <label for="exampleInputFile">File input</label>
                                         <div class="input-group">
                                             <div class="custom-file">
