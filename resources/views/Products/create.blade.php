@@ -90,8 +90,8 @@
                                     <div class="form-group">
                                         <label for="color">
                                             @foreach ($colors as $color)
-                                                <input type="checkbox" name="{{ $color->color }}"
-                                                    value="{{ $color->color }}">{{ $color->color }}</input>
+                                                <input type="checkbox" name="color[]"
+                                                    value="{{ $color->id }}">{{ $color->color }}</input>
                                             @endforeach
                                         </label>
                                     </div>

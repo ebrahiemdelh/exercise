@@ -43,6 +43,7 @@ class ProductsController extends Controller
      */
     public function store(StoreProductsRequest $request)
     {
+        $color = Prod_Colors::all();
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $image_name = time() . '.' . $image->getClientOriginalExtension();
@@ -65,12 +66,19 @@ class ProductsController extends Controller
             'image_id' => Prod_Images::latest()->first()->id,
             'product_id' => Products::latest()->first()->id
         ]);
-        // dd(Products::latest()->first()->id);
-        dd($request->id);
-        DB::table('product_color_link')->insert([
-            'color_id' => DB::table('prod_colors')->where('color', $request->color)->first()->id,
-            'product_id' => Products::latest()->first()->id
-        ]);
+        foreach ($color->id as $id) {
+            if (in_array($id, $request->color)) {
+                dd($id);
+                DB::table('product_color_link')->insert([
+                    'color_id' => DB::table('prod_colors')->where('color', $request->color)->first()->id,
+                    'product_id' => Products::latest()->first()->id
+                ]);
+            }
+        }
+        //     DB::table('product_color_link')->insert([
+        //     'color_id' => DB::table('prod_colors')->where('color', $request->color)->first()->id,
+        //     'product_id' => Products::latest()->first()->id
+        // ]);
         return redirect()->route('products.index')->with('success', 'Product created successfully');
     }
 
